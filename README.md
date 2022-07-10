@@ -17,7 +17,7 @@ $$
 
 
 
-# 第三方依赖库： #
+## 第三方依赖库： ##
 
 ## Armadillo   ##
 
@@ -44,7 +44,7 @@ $$
 
 
 
-#### 注意:执行 cmake .  之前请修改CmakeLists.txt中的第三方库的路径 ####
+## 注意:执行 cmake .  之前请修改CmakeLists.txt中的第三方库的路径 ##
 
 please change the path before running `cmake .`
 
