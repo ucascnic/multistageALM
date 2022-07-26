@@ -48,27 +48,27 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/chenyidong/cmake-3.22.0-rc2/bin/cmake
+CMAKE_COMMAND = /usr/local/bin/cmake
 
 # The command to remove a file.
-RM = /home/chenyidong/cmake-3.22.0-rc2/bin/cmake -E rm -f
+RM = /usr/local/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/chenyidong/multiblockADMM
+CMAKE_SOURCE_DIR = /home/chenyidong/multistageALM
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/chenyidong/multiblockADMM
+CMAKE_BINARY_DIR = /home/chenyidong/multistageALM
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/home/chenyidong/cmake-3.22.0-rc2/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/local/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -78,7 +78,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/chenyidong/cmake-3.22.0-rc2/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -97,44 +97,44 @@ list_install_components/fast: list_install_components
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/chenyidong/cmake-3.22.0-rc2/bin/cmake -P cmake_install.cmake
+	/usr/local/bin/cmake -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/chenyidong/cmake-3.22.0-rc2/bin/cmake -P cmake_install.cmake
+	/usr/local/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/chenyidong/cmake-3.22.0-rc2/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/usr/local/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
 install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/chenyidong/cmake-3.22.0-rc2/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/usr/local/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/chenyidong/cmake-3.22.0-rc2/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/usr/local/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
 install/strip/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/chenyidong/cmake-3.22.0-rc2/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/usr/local/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/chenyidong/multiblockADMM/CMakeFiles /home/chenyidong/multiblockADMM//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chenyidong/multistageALM/CMakeFiles /home/chenyidong/multistageALM//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/chenyidong/multiblockADMM/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chenyidong/multistageALM/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -200,6 +200,30 @@ Models/fast:
 	$(MAKE) $(MAKESILENT) -f Common/Models/CMakeFiles/Models.dir/build.make Common/Models/CMakeFiles/Models.dir/build
 .PHONY : Models/fast
 
+cnicsparsematrix.o: cnicsparsematrix.cpp.o
+.PHONY : cnicsparsematrix.o
+
+# target to build an object file
+cnicsparsematrix.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ADMM_Solver.dir/build.make CMakeFiles/ADMM_Solver.dir/cnicsparsematrix.cpp.o
+.PHONY : cnicsparsematrix.cpp.o
+
+cnicsparsematrix.i: cnicsparsematrix.cpp.i
+.PHONY : cnicsparsematrix.i
+
+# target to preprocess a source file
+cnicsparsematrix.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ADMM_Solver.dir/build.make CMakeFiles/ADMM_Solver.dir/cnicsparsematrix.cpp.i
+.PHONY : cnicsparsematrix.cpp.i
+
+cnicsparsematrix.s: cnicsparsematrix.cpp.s
+.PHONY : cnicsparsematrix.s
+
+# target to generate assembly for a file
+cnicsparsematrix.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ADMM_Solver.dir/build.make CMakeFiles/ADMM_Solver.dir/cnicsparsematrix.cpp.s
+.PHONY : cnicsparsematrix.cpp.s
+
 main_admm.o: main_admm.cpp.o
 .PHONY : main_admm.o
 
@@ -239,6 +263,9 @@ help:
 	@echo "... ADMM_Solver"
 	@echo "... Common"
 	@echo "... Models"
+	@echo "... cnicsparsematrix.o"
+	@echo "... cnicsparsematrix.i"
+	@echo "... cnicsparsematrix.s"
 	@echo "... main_admm.o"
 	@echo "... main_admm.i"
 	@echo "... main_admm.s"

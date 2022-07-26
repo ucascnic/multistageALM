@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="multistageALM"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\Common\;CMake Files\Common\Models\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ADMM_Solver">
+				<Option output="/home/chenyidong/multistageALM/ADMM_Solver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/chenyidong/multistageALM/."/>
+					<Add directory="/home/chenyidong/multistageALM/./usr/local/cuda-11.1/include"/>
+					<Add directory="/usr/local/cuda-11.1/include"/>
+					<Add directory="/home/chenyidong/multistageALM/Common"/>
+					<Add directory="/home/chenyidong/armadillo_lib/include"/>
+					<Add directory="/home/chenyidong/hdf5_installed/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 ADMM_Solver"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ADMM_Solver/fast">
+				<Option output="/home/chenyidong/multistageALM/ADMM_Solver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/chenyidong/multistageALM/."/>
+					<Add directory="/home/chenyidong/multistageALM/./usr/local/cuda-11.1/include"/>
+					<Add directory="/usr/local/cuda-11.1/include"/>
+					<Add directory="/home/chenyidong/multistageALM/Common"/>
+					<Add directory="/home/chenyidong/armadillo_lib/include"/>
+					<Add directory="/home/chenyidong/hdf5_installed/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 ADMM_Solver/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/home/chenyidong/multistageALM"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Common">
+				<Option output="/home/chenyidong/multistageALM/Common/libCommon.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/chenyidong/multistageALM/Common"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/chenyidong/multistageALM/."/>
+					<Add directory="/home/chenyidong/multistageALM/./usr/local/cuda-11.1/include"/>
+					<Add directory="/usr/local/cuda-11.1/include"/>
+					<Add directory="/home/chenyidong/multistageALM/Common"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Makefile&quot;  VERBOSE=1 Common"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Common/fast">
+				<Option output="/home/chenyidong/multistageALM/Common/libCommon.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/chenyidong/multistageALM/Common"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/chenyidong/multistageALM/."/>
+					<Add directory="/home/chenyidong/multistageALM/./usr/local/cuda-11.1/include"/>
+					<Add directory="/usr/local/cuda-11.1/include"/>
+					<Add directory="/home/chenyidong/multistageALM/Common"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Makefile&quot;  VERBOSE=1 Common/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Models">
+				<Option output="/home/chenyidong/multistageALM/Common/Models/CMakeFiles/Models.dir/Models.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/chenyidong/multistageALM/Common/Models"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/chenyidong/multistageALM/."/>
+					<Add directory="/home/chenyidong/multistageALM/./usr/local/cuda-11.1/include"/>
+					<Add directory="/usr/local/cuda-11.1/include"/>
+					<Add directory="/home/chenyidong/multistageALM/Common"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Models/Makefile&quot;  VERBOSE=1 Models"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Models/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Models/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Models/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Models/fast">
+				<Option output="/home/chenyidong/multistageALM/Common/Models/CMakeFiles/Models.dir/Models.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/chenyidong/multistageALM/Common/Models"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/chenyidong/multistageALM/."/>
+					<Add directory="/home/chenyidong/multistageALM/./usr/local/cuda-11.1/include"/>
+					<Add directory="/usr/local/cuda-11.1/include"/>
+					<Add directory="/home/chenyidong/multistageALM/Common"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Models/Makefile&quot;  VERBOSE=1 Models/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Models/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Models/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/chenyidong/multistageALM/Common/Models/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/chenyidong/multistageALM/CMakeFiles/ADMM_Solver.dir/ADMM_Solver_generated_Conjugate_gradient.cu.o">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/CMakeFiles/ADMM_Solver.dir/ADMM_Solver_generated_admmsolver.cu.o">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/CMakeFiles/ADMM_Solver.dir/ADMM_Solver_generated_cnic_sparsematrix.cu.o">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/CMakeFiles/ADMM_Solver.dir/ADMM_Solver_generated_matrix_function.cu.o">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/CMakeFiles/ADMM_Solver.dir/ADMM_Solver_generated_mytest_sparse.cu.o">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/CMakeFiles/ADMM_Solver.dir/ADMM_Solver_intermediate_link.o">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/CMakeFiles/ADMM_Solver.dir/ADMM_Solver_intermediate_link.o.rule">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/GridTools.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/GridTools.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/CMakeFiles/Models.dir/Geometry_Reflector.cpp.o">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/CMakeFiles/Models.dir/Geometry_Sphere.cpp.o">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/CMakeFiles/Models.dir/OT.cpp.o">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/CMakeFiles/Models.dir/WFR.cpp.o">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/Geometry_Reflector.cpp">
+			<Option target="Models"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/Geometry_Reflector.h">
+			<Option target="Models"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/Geometry_Sphere.cpp">
+			<Option target="Models"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/Geometry_Sphere.h">
+			<Option target="Models"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/OT.cpp">
+			<Option target="Models"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/OT.h">
+			<Option target="Models"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/WFR.cpp">
+			<Option target="Models"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/WFR.h">
+			<Option target="Models"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/MultiScaleTools.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/MultiScaleTools.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/TCouplingHandler.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/TCouplingHandler.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/TEpsScaling.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/TEpsScaling.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/THierarchicalCostFunctionProvider.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/THierarchicalCostFunctionProvider.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/THierarchicalPartition.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/THierarchicalPartition.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/THierarchyBuilder.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/THierarchyBuilder.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/TVarListHandler.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/TVarListHandler.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Tools.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Tools.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Verbose.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Verbose.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/eps_handler.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/eps_handler.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/family.cpp">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/family.h">
+			<Option target="Common"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Conjugate_gradient.cu">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/admmsolver.cu">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/cnic_sparsematrix.cu">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/cnicsparsematrix.cpp">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/cnicsparsematrix.h">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/main_admm.cpp">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/matrix_function.cu">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/mytest_sparse.cu">
+			<Option target="ADMM_Solver"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Common\"/>
+		</Unit>
+		<Unit filename="/home/chenyidong/multistageALM/Common/Models/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Common\Models\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

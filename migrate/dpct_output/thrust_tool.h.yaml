@@ -1,0 +1,88 @@
+---
+MainSourceFile:  '/home/chenyidong/multistageALM/migrate/dpct_output/thrust_tool.h'
+Replacements:
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          44
+    Length:          0
+    ReplacementText: '#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          53
+    Length:          27
+    ReplacementText: '<dpct/dpl_utils.hpp>
+#include <oneapi/dpl/execution>
+#include <oneapi/dpl/algorithm>'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          81
+    Length:          30
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          112
+    Length:          33
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          146
+    Length:          24
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          171
+    Length:          29
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          200
+    Length:          24
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          225
+    Length:          33
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          259
+    Length:          36
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/thrust_tool.h'
+    Offset:          297
+    Length:          21
+    ReplacementText: 'dpct::device_vector'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+...

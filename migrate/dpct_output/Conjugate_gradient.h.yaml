@@ -1,0 +1,88 @@
+---
+MainSourceFile:  '/home/chenyidong/multistageALM/migrate/dpct_output/Conjugate_gradient.h'
+Replacements:
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          36
+    Length:          22
+    ReplacementText: '#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+#include <oneapi/mkl.hpp>
+#include <dpct/blas_utils.hpp>
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          112
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          266
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          426
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          583
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          714
+    Length:          23
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          836
+    Length:          18
+    ReplacementText: 'oneapi::mkl::index_base'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          882
+    Length:          16
+    ReplacementText: int
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          1163
+    Length:          18
+    ReplacementText: 'oneapi::mkl::index_base'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/Conjugate_gradient.h'
+    Offset:          1208
+    Length:          16
+    ReplacementText: int
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+...

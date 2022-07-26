@@ -1,4 +1,6 @@
-#include"admmsolver.h"
+#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+#include "admmsolver.h"
 #include<stdio.h>
 #include"resources.h"
 #include<vector>
@@ -6,33 +8,35 @@
 
 
 #include"matrix_function.h"
-#include<cuda_runtime_api.h>
 
-#include"Conjugate_gradient.h"
+#include "Conjugate_gradient.h"
+#include <cmath>
+
 #define THREAD_ 128
 
-#define copy_double_device_data(a,b,n)  \
-    cudaMemcpy(a,b,(n)*sizeof(double),cudaMemcpyDeviceToDevice);
+#define copy_double_device_data(a, b, n)                                       \
+    q_ct1.memcpy(a, b, (n) * sizeof(double)).wait();
 #define copy_double_device_data_start_length(a,b,start,length) \
     cudaMemcpy(a+start,b,(length)*sizeof(double),cudaMemcpyDeviceToDevice);
 
-
-#define matrix_cslice(a,matrix,nrows,col) cudaMemcpy(a,matrix+(nrows)*(col),(nrows)*sizeof(double),cudaMemcpyDeviceToDevice);
+#define matrix_cslice(a, matrix, nrows, col)                                   \
+                                          q_ct1.memcpy(a, matrix + (nrows) * (col), (nrows) * sizeof(double)).wait();
 
 //r =  yk + ahatk - beq - lambda/rho;
-__global__ void update_r(double *r,
+void update_r(double *r,
                          double *yk,
                          double *ahatk,
                          double *beq,
                          double *lambda,
-                         double rho,int nlambda){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+                         double rho,int nlambda, sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>=nlambda)
         return;
     r[x] =  yk[x] + ahatk[x] - beq[x] - lambda[x]/rho;
 
 }
-__global__ void update_xk(double *xk,
+void update_xk(double *xk,
                           double *old_x,
                           double *b,
                           double *S,
@@ -45,15 +49,17 @@ __global__ void update_xk(double *xk,
                           int d,
                           int r_end,
                           double tau,
-                          double rho){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+                          double rho,
+                          sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>=n+d)
         return;
 
     if(x<n-1)
     {
         xk[x] = (tau*old_x[x] - b[x] - rho *  S[x]   * r[x]) /(2.0*a[x] + rho *   S[x] *S[x] + tau);
-        xk[x] = min(max(xk[x],LA[x]),UA[x]);
+        xk[x] = sycl::min(sycl::max(xk[x], LA[x]), UA[x]);
 
     }
     else
@@ -62,7 +68,7 @@ __global__ void update_xk(double *xk,
 
             xk[x] = (tau*old_x[x] - b[x] - rho * DD[x-n] * r[x])
                     /(2.0*a[x] + rho  * DD[x-n] * DD[x-n]  + tau);
-            xk[x] =  max(xk[x],0.0);
+            xk[x] = sycl::max(xk[x], 0.0);
 
 //            if(x == (n+d - 1)){
 //                printf("old_x[%d] = %.6f\n",x+1,old_x[x]);
@@ -81,8 +87,7 @@ __global__ void update_xk(double *xk,
 
             xk[n-1] =  (tau * old_x[n-1] - b[n-1] - rho * S[n-1] *
                     (r[n-1] - r[r_end]))/(2.0*rho * S[n-1] * S[n-1] + 2.0*a[n-1] + tau);
-            xk[n-1] = min(max(xk[n-1],LA[n-1]),UA[n-1]);
-
+            xk[n - 1] = sycl::min(sycl::max(xk[n - 1], LA[n - 1]), UA[n - 1]);
         }
 
     }
@@ -94,39 +99,46 @@ __global__ void update_xk(double *xk,
 
 // haty = haty - N1 - lambday/tau2;
 // haty = max(haty,0);
-__global__
-void update_hat_y(double *haty,double *N1,double *lambday,double tau2,int N1_size){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+
+void update_hat_y(double *haty,double *N1,double *lambday,double tau2,int N1_size,
+                  sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>=N1_size)
         return;
      haty[x] = haty[x] - N1[x] - lambday[x]/tau2;
-     haty[x] = max(haty[x],0.0);
-
+     haty[x] = sycl::max(haty[x], 0.0);
 }
 
 //b2 =  -haty - N1 - lambday/tau2;
-__global__ void update_b2(double *b2,double *haty,double *N1,double *lambday,double tau2, int nlambday){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+void update_b2(double *b2,double *haty,double *N1,double *lambday,double tau2, int nlambday,
+               sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>=nlambday)
         return;
     b2[x] =  -haty[x] - N1[x] - lambday[x]/tau2;
 
 }
 
-__global__ void update_b1(double *b1,double*b1_temp,double*beq,double*lambda,double rho,int n){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+void update_b1(double *b1,double*b1_temp,double*beq,double*lambda,double rho,int n,
+               sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>=n)
         return;
     b1[x] += b1_temp[x] - beq[x] - lambda[x]/rho;
 }
 
-__global__
+
 void update_bb(double *bb,
                double *bb_temp,
                double rho,
                double tau2,
-               int nn){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+               int nn,
+               sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>=nn)
         return;
 
@@ -142,11 +154,12 @@ double* allocate_data(Resources<double>*resources,vec &b){
 }
 
 
-__global__ void
+void
 update_residual_kernel(double*r,double*old_x,double*old_y,double*beq,double*lambda,
-                       double rho,int nlambda){
+                       double rho,int nlambda, sycl::nd_item<3> item_ct1){
 
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>=nlambda)
         return;
      r[x] = old_x[x] + old_y[x]  - beq[x] - lambda[x]/rho;
@@ -154,28 +167,41 @@ update_residual_kernel(double*r,double*old_x,double*old_y,double*beq,double*lamb
 }
 inline void
 update_residual(double*r,double*old_x,double*old_y,double*beq,double*lambda,double rho,int nlambda){
-    dim3 block(nlambda/THREAD_+1);
-    update_residual_kernel<<<block,THREAD_>>>(r,old_x,old_y,beq,lambda,rho,nlambda);
-
+    sycl::range<3> block(1, 1, nlambda / THREAD_ + 1);
+   dpct::get_default_queue().submit([&](sycl::handler &cgh) {
+      cgh.parallel_for(sycl::nd_range<3>(block * sycl::range<3>(1, 1, THREAD_),
+                                         sycl::range<3>(1, 1, THREAD_)),
+                       [=](sycl::nd_item<3> item_ct1) {
+                          update_residual_kernel(r, old_x, old_y, beq, lambda,
+                                                 rho, nlambda, item_ct1);
+                       });
+   });
 }
 
-__global__ void
-update_ahatk_kernel(double *ahatk,double *residual,int n,int d){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+void
+update_ahatk_kernel(double *ahatk,double *residual,int n,int d,
+                    sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>=(d+1))
         return;
      ahatk[x] =   -residual[n+x];
-     ahatk[x] = max(ahatk[x],0.0);
-
+     ahatk[x] = sycl::max(ahatk[x], 0.0);
 }
 
 inline void
 update_ahatk(double *ahatk,double *residual,int n,int d){
-    dim3 block((d+1)/THREAD_+1);
-    update_ahatk_kernel<<<block,THREAD_>>>(ahatk,residual,n,d);
+    sycl::range<3> block(1, 1, (d + 1) / THREAD_ + 1);
+   dpct::get_default_queue().submit([&](sycl::handler &cgh) {
+      cgh.parallel_for(sycl::nd_range<3>(block * sycl::range<3>(1, 1, THREAD_),
+                                         sycl::range<3>(1, 1, THREAD_)),
+                       [=](sycl::nd_item<3> item_ct1) {
+                          update_ahatk_kernel(ahatk, residual, n, d, item_ct1);
+                       });
+   });
 }
 
-__global__
+
 void update_lambda_2_kernel(double *lambda_2,int N_block,
                 double *lambday,
                 double tau2,
@@ -183,8 +209,9 @@ void update_lambda_2_kernel(double *lambda_2,int N_block,
                 double *N1,
                 double *yk_temp,
                 double *haty,
-                int nlambda){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+                int nlambda, sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>= nlambda)
         return;
     res2[x] =   N1[x] - yk_temp[x] + haty[x];
@@ -203,13 +230,19 @@ update_lambda_2(double *lambda_2,int N_block,
                 double *haty,
                 int nlambda){
 
-    dim3 block((nlambda)/THREAD_+1);
-    update_lambda_2_kernel<<<block,THREAD_>>>(lambda_2,N_block,
-                                       lambday,tau2,res2,N1,yk_temp,haty,nlambda);
-
+    sycl::range<3> block(1, 1, (nlambda) / THREAD_ + 1);
+   dpct::get_default_queue().submit([&](sycl::handler &cgh) {
+      cgh.parallel_for(sycl::nd_range<3>(block * sycl::range<3>(1, 1, THREAD_),
+                                         sycl::range<3>(1, 1, THREAD_)),
+                       [=](sycl::nd_item<3> item_ct1) {
+                          update_lambda_2_kernel(lambda_2, N_block, lambday,
+                                                 tau2, res2, N1, yk_temp, haty,
+                                                 nlambda, item_ct1);
+                       });
+   });
 }
 
-__global__ void
+void
 update_lambda_1_kernel(double*lambda_1,
                 int N_block,
                 double*lambda,
@@ -218,8 +251,9 @@ update_lambda_1_kernel(double*lambda_1,
                 double*beq,
                 double*old_x,
                 double*old_y,
-                double*ahatk_temp,int nlambda){
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
+                double*ahatk_temp,int nlambda, sycl::nd_item<3> item_ct1){
+    int x = item_ct1.get_group(2) * item_ct1.get_local_range().get(2) +
+            item_ct1.get_local_id(2);
     if (x>= nlambda)
         return;
     res1[x] =  beq[x] - old_x[x] - old_y[x] - ahatk_temp[x];
@@ -239,26 +273,23 @@ update_lambda_1(double*lambda_1,
                 double*old_y,
                 double*ahatk_temp,int nlambda){
 
-    dim3 block((nlambda)/THREAD_+1);
-    update_lambda_1_kernel<<<block,THREAD_>>>(lambda_1,
-                           N_block,
-                           lambda,
-                           rho,
-                           res1,
-                           beq,
-                           old_x,
-                           old_y,
-                           ahatk_temp,nlambda);
-
-
+    sycl::range<3> block(1, 1, (nlambda) / THREAD_ + 1);
+   dpct::get_default_queue().submit([&](sycl::handler &cgh) {
+      cgh.parallel_for(sycl::nd_range<3>(block * sycl::range<3>(1, 1, THREAD_),
+                                         sycl::range<3>(1, 1, THREAD_)),
+                       [=](sycl::nd_item<3> item_ct1) {
+                          update_lambda_1_kernel(lambda_1, N_block, lambda, rho,
+                                                 res1, beq, old_x, old_y,
+                                                 ahatk_temp, nlambda, item_ct1);
+                       });
+   });
 }
 
-
-void admm_solver(sp_mat &AAA,sp_mat &A, sp_mat &B,sp_mat &C, sp_mat &M1,
-                 sp_mat &Aeqy, vec &beqy, vec &D,
-                 vec &beq, vec & N1, vec & a,vec & b,vec & S,
-                  vec & LA,vec & UA,
-                 int maxiter,int n,int d){
+void admm_solver(sp_mat &AAA, sp_mat &A, sp_mat &B, sp_mat &C, sp_mat &M1,
+                 sp_mat &Aeqy, vec &beqy, vec &D, vec &beq, vec &N1, vec &a,
+                 vec &b, vec &S, vec &LA, vec &UA, int maxiter, int n, int d) {
+    dpct::device_ext &dev_ct1 = dpct::get_current_device();
+    sycl::queue &q_ct1 = dev_ct1.default_queue();
 
     //std::cout << A << std::endl;exit(0);
 
@@ -330,10 +361,8 @@ void admm_solver(sp_mat &AAA,sp_mat &A, sp_mat &B,sp_mat &C, sp_mat &M1,
     double *N1_cu=allocate_data(&resources,N1);
     double *beqy_cu=allocate_data(&resources,beqy);
 
-
-    cublasHandle_t handle;
-    cublasCreate(&handle);
-
+    sycl::queue *handle;
+    handle = &q_ct1;
 
      //  create sparse matrix
 
@@ -370,17 +399,11 @@ void admm_solver(sp_mat &AAA,sp_mat &A, sp_mat &B,sp_mat &C, sp_mat &M1,
     CSRMatrix   AAA_cu( AAA_coo.n_element,AAA_coo.n_rows,AAA_coo.n_cols);
     AAA_cu.create_matrix_from_coo(&AAA_coo);
 
-
-
-    dim3 block_lambda(nlambda/THREAD_+1);
-    dim3 block_lambday(nlambday/THREAD_+1);
-    dim3 block_xk((n+d)/THREAD_+1);
-    dim3 block_N1((nlambday)/THREAD_+1);
-    dim3 block_bb((M1.n_cols)/THREAD_+1);
-
-
-
-
+    sycl::range<3> block_lambda(1, 1, nlambda / THREAD_ + 1);
+    sycl::range<3> block_lambday(1, 1, nlambday / THREAD_ + 1);
+    sycl::range<3> block_xk(1, 1, (n + d) / THREAD_ + 1);
+    sycl::range<3> block_N1(1, 1, (nlambday) / THREAD_ + 1);
+    sycl::range<3> block_bb((M1.n_cols) / THREAD_ + 1);
 
     for (int iter = 1; iter < 10000; iter++){
 
@@ -395,18 +418,39 @@ void admm_solver(sp_mat &AAA,sp_mat &A, sp_mat &B,sp_mat &C, sp_mat &M1,
       sp_matrix_times_V_ptrl(&B_cu,old_y,temp1);
       sp_matrix_times_V_ptrl(&C_cu,old_ahat,temp2);
 
-      update_r<<<block_lambda,THREAD_>>>(r_cu,temp1,temp2,beq_cu,lambda,rho,nlambda);
+      q_ct1.submit([&](sycl::handler &cgh) {
+         cgh.parallel_for(
+             sycl::nd_range<3>(block_lambda * sycl::range<3>(1, 1, THREAD_),
+                               sycl::range<3>(1, 1, THREAD_)),
+             [=](sycl::nd_item<3> item_ct1) {
+                update_r(r_cu, temp1, temp2, beq_cu, lambda, rho, nlambda,
+                         item_ct1);
+             });
+      });
 
-
-      update_xk<<<block_xk,THREAD_>>>(xk,old_x,b_cu,S_cu,r_cu,a_cu,LA_cu,UA_cu,D_cu,n,d,r_end,tau,rho);
-
+      q_ct1.submit([&](sycl::handler &cgh) {
+         cgh.parallel_for(
+             sycl::nd_range<3>(block_xk * sycl::range<3>(1, 1, THREAD_),
+                               sycl::range<3>(1, 1, THREAD_)),
+             [=](sycl::nd_item<3> item_ct1) {
+                update_xk(xk, old_x, b_cu, S_cu, r_cu, a_cu, LA_cu, UA_cu, D_cu,
+                          n, d, r_end, tau, rho, item_ct1);
+             });
+      });
 
       // haty = M1_cu*old_y
       // haty = haty - N1 - lambday/tau2;
       // haty = max(haty,0);
       sp_matrix_times_V_ptrl(&M1_cu,old_y,haty);
 
-      update_hat_y<<<block_N1,THREAD_>>>(haty,N1_cu,lambday,tau2,nlambday);
+      q_ct1.submit([&](sycl::handler &cgh) {
+         cgh.parallel_for(
+             sycl::nd_range<3>(block_N1 * sycl::range<3>(1, 1, THREAD_),
+                               sycl::range<3>(1, 1, THREAD_)),
+             [=](sycl::nd_item<3> item_ct1) {
+                update_hat_y(haty, N1_cu, lambday, tau2, nlambday, item_ct1);
+             });
+      });
 
 //       b1 = A*xk  b1_temp =   C*old_ahat
 //       b1 = b1  + b1_temp - beq - lambda/rho; b2 =  -haty - N1 - lambday/tau2;
@@ -414,9 +458,22 @@ void admm_solver(sp_mat &AAA,sp_mat &A, sp_mat &B,sp_mat &C, sp_mat &M1,
 
       sp_matrix_times_V_ptrl(&A_cu,xk,b1);
       sp_matrix_times_V_ptrl(&C_cu,old_ahat,b1_temp);
-      update_b1<<<block_lambda,THREAD_>>>(b1,b1_temp,beq_cu,lambda,rho,nlambda);
-      update_b2<<<block_lambday,THREAD_>>>(b2,haty,N1_cu,lambday,tau2,nlambday);
-
+      q_ct1.submit([&](sycl::handler &cgh) {
+         cgh.parallel_for(
+             sycl::nd_range<3>(block_lambda * sycl::range<3>(1, 1, THREAD_),
+                               sycl::range<3>(1, 1, THREAD_)),
+             [=](sycl::nd_item<3> item_ct1) {
+                update_b1(b1, b1_temp, beq_cu, lambda, rho, nlambda, item_ct1);
+             });
+      });
+      q_ct1.submit([&](sycl::handler &cgh) {
+         cgh.parallel_for(
+             sycl::nd_range<3>(block_lambday * sycl::range<3>(1, 1, THREAD_),
+                               sycl::range<3>(1, 1, THREAD_)),
+             [=](sycl::nd_item<3> item_ct1) {
+                update_b2(b2, haty, N1_cu, lambday, tau2, nlambday, item_ct1);
+             });
+      });
 
       sp_matrix_times_V_ptrl(&M1_cuT,b2,bb);    //bb = trans(M1) * b2;  bb_temp = trans(B)*b1;  bb = -(rho * bb_temp +  tau2 *bb ) ; //bbb = [-bb;beqy];
       sp_matrix_times_V_ptrl(&B_cuT,b1,bb_temp);
@@ -452,9 +509,40 @@ void admm_solver(sp_mat &AAA,sp_mat &A, sp_mat &B,sp_mat &C, sp_mat &M1,
 
       double res1_norm = 0.0;
       double res2_norm = 0.0;
-      cublasDnrm2(handle,nlambda,res1,1,&res1_norm);
-      cublasDnrm2(handle,nlambday,res2,1,&res2_norm);
-
+      double *res_temp_ptr_ct1 = &res1_norm;
+      if (sycl::get_pointer_type(&res1_norm, handle->get_context()) !=
+              sycl::usm::alloc::device &&
+          sycl::get_pointer_type(&res1_norm, handle->get_context()) !=
+              sycl::usm::alloc::shared) {
+         res_temp_ptr_ct1 =
+             sycl::malloc_shared<double>(1, dpct::get_default_queue());
+      }
+      oneapi::mkl::blas::nrm2(*handle, nlambda, res1, 1, res_temp_ptr_ct1);
+      if (sycl::get_pointer_type(&res1_norm, handle->get_context()) !=
+              sycl::usm::alloc::device &&
+          sycl::get_pointer_type(&res1_norm, handle->get_context()) !=
+              sycl::usm::alloc::shared) {
+         handle->wait();
+         res1_norm = *res_temp_ptr_ct1;
+         sycl::free(res_temp_ptr_ct1, dpct::get_default_queue());
+      }
+      double *res_temp_ptr_ct2 = &res2_norm;
+      if (sycl::get_pointer_type(&res2_norm, handle->get_context()) !=
+              sycl::usm::alloc::device &&
+          sycl::get_pointer_type(&res2_norm, handle->get_context()) !=
+              sycl::usm::alloc::shared) {
+         res_temp_ptr_ct2 =
+             sycl::malloc_shared<double>(1, dpct::get_default_queue());
+      }
+      oneapi::mkl::blas::nrm2(*handle, nlambday, res2, 1, res_temp_ptr_ct2);
+      if (sycl::get_pointer_type(&res2_norm, handle->get_context()) !=
+              sycl::usm::alloc::device &&
+          sycl::get_pointer_type(&res2_norm, handle->get_context()) !=
+              sycl::usm::alloc::shared) {
+         handle->wait();
+         res2_norm = *res_temp_ptr_ct2;
+         sycl::free(res_temp_ptr_ct2, dpct::get_default_queue());
+      }
 
       double residual_all = sqrt(res1_norm*res1_norm + res2_norm*res2_norm);
        if (residual_all < 1e-5)

@@ -1,20 +1,23 @@
-#include"cnic_sparsematrix.h"
-#include<iostream>
-#include<cusparse_v2.h>
-#include<cuda_runtime_api.h>
-#include"matrix_function.h"
-#include<assert.h>
-#include<thrust/device_ptr.h>
-#include <thrust/device_vector.h>
-#include<cublas_v2.h>
+#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+#include "cnic_sparsematrix.h"
+#include <iostream>
+#include <oneapi/mkl.hpp>
+#include <dpct/blas_utils.hpp>
+
+#include "matrix_function.h"
+#include <assert.h>
+#include <oneapi/mkl.hpp>
+#include <dpct/blas_utils.hpp>
+
 #define ARMA_ALLOW_FAKE_GCC
 #include<armadillo>
 
-static cusparseHandle_t cusparse_handle = 0;
-cusparseStatus_t Status_t = cusparseCreate(&cusparse_handle);
+static sycl::queue *cusparse_handle = 0;
+int Status_t = (cusparseCreate(&cusparse_handle), 0);
 static void init_cusparse() {
   if (cusparse_handle == 0) {
-    if (Status_t != CUSPARSE_STATUS_SUCCESS) {
+    if (Status_t != 0) {
       printf("CUSPARSE Library initialization failed");
     }
   }
@@ -79,21 +82,19 @@ void CSRMatrix::print_matrix(){
     show_res_T<double>((double*)thrust::raw_pointer_cast(this->cudata.data()),this->n_element);
 }
 
-void sortcoo_and_to_csr(int rows,int cols,int N,
-                        double *val, int * row_ptrl, int *col_ptrl,
-                        int *crs_row_ptrl){
-
-
+void sortcoo_and_to_csr(int rows, int cols, int N, double *val, int *row_ptrl,
+                        int *col_ptrl, int *crs_row_ptrl) try {
+    dpct::device_ext &dev_ct1 = dpct::get_current_device();
+    sycl::queue &q_ct1 = dev_ct1.default_queue();
 
     size_t workspace_size = 0;
+    /*
+    DPCT1007:5: Migration of this CUDA API is not supported by the Intel(R)
+    DPC++ Compatibility Tool.
+    */
     Status_t = cusparseXcoosort_bufferSizeExt(
-        cusparse_handle,
-        rows, cols,
-        N,
-        row_ptrl,
-        col_ptrl,
-        &workspace_size);
-    assert( CUSPARSE_STATUS_SUCCESS == Status_t);
+        cusparse_handle, rows, cols, N, row_ptrl, col_ptrl, &workspace_size);
+    assert(0 == Status_t);
     double * buffer_for_coo_sort;
     CHECK(cudaMalloc(&buffer_for_coo_sort, sizeof(char) * workspace_size));
     int * indptrl_cu;
@@ -101,42 +102,39 @@ void sortcoo_and_to_csr(int rows,int cols,int N,
     int * indptrl_cu_mid = (int*) malloc( sizeof(int) *N);
     for ( int i =  0 ;i  < N ; ++i) indptrl_cu_mid[i] = i;
 
+    q_ct1.memcpy(indptrl_cu, indptrl_cu_mid, sizeof(int) * N).wait();
+    /*
+    DPCT1007:6: Migration of this CUDA API is not supported by the Intel(R)
+    DPC++ Compatibility Tool.
+    */
+    Status_t = cusparseXcoosortByRow(cusparse_handle, rows, cols, N, row_ptrl,
+                                     col_ptrl, indptrl_cu, buffer_for_coo_sort);
 
-    cudaMemcpy(indptrl_cu,indptrl_cu_mid,sizeof(int) * N,cudaMemcpyHostToDevice);
-    Status_t = cusparseXcoosortByRow(
-        cusparse_handle,
-        rows, cols,
-        N,
-        row_ptrl,
-        col_ptrl,
-        indptrl_cu,
-        buffer_for_coo_sort);
+   /*
+   DPCT1007:7: Migration of this CUDA API is not supported by the Intel(R) DPC++
+   Compatibility Tool.
+   */
+   Status_t = cusparseDgthr(cusparse_handle, N, val, buffer_for_coo_sort,
+                            indptrl_cu, oneapi::mkl::index_base::zero);
 
+   q_ct1.memcpy(val, buffer_for_coo_sort, N * sizeof(double)).wait();
+   assert(0 == Status_t);
 
-   Status_t = cusparseDgthr(cusparse_handle,
-                          N,
-                          val,
-                          buffer_for_coo_sort,
-                          indptrl_cu,
-                          CUSPARSE_INDEX_BASE_ZERO);
+    /*
+    DPCT1007:8: Migration of this CUDA API is not supported by the Intel(R)
+    DPC++ Compatibility Tool.
+    */
+    Status_t = cusparseXcoo2csr(cusparse_handle, row_ptrl, N, rows,
+                                crs_row_ptrl, oneapi::mkl::index_base::zero);
+    assert(0 == Status_t);
 
-
-
-   cudaMemcpy(val,buffer_for_coo_sort,
-              N*sizeof(double),cudaMemcpyDeviceToDevice);
-   assert( CUSPARSE_STATUS_SUCCESS == Status_t);
-
-    Status_t = cusparseXcoo2csr(cusparse_handle,
-        row_ptrl, N, rows,
-        crs_row_ptrl, CUSPARSE_INDEX_BASE_ZERO);
-    assert( CUSPARSE_STATUS_SUCCESS == Status_t);
-
-    cudaFree(buffer_for_coo_sort);
-    cudaFree(indptrl_cu);
-
-
-
-
+    sycl::free(buffer_for_coo_sort, q_ct1);
+    sycl::free(indptrl_cu, q_ct1);
+}
+catch (sycl::exception const &exc) {
+  std::cerr << exc.what() << "Exception caught at file:" << __FILE__
+            << ", line:" << __LINE__ << std::endl;
+  std::exit(1);
 }
 #include"cnicsparsematrix.h"
 void CSRMatrix::create_matrix_from_coo(COOMatrix * coo_matrix){
@@ -216,31 +214,19 @@ cuVec::cuVec(thrust::host_vector<double> &data){
     this->cudata = data;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include<cuda_runtime_api.h>
 #define WARP_ 32
-inline __device__  double __shfl_down_(double var, unsigned int srcLane, int width=WARP_) {
-  int2 a = *reinterpret_cast<int2*>(&var);
-  a.x = __shfl_down(a.x, srcLane, width);
-  a.y = __shfl_down(a.y, srcLane, width);
+inline double __shfl_down_(double var, unsigned int srcLane,
+                           sycl::nd_item<3> item_ct1, int width=WARP_) {
+  sycl::int2 a = *reinterpret_cast<sycl::int2 *>(&var);
+  a.x() = item_ct1.get_sub_group().shuffle_down(a.x(), srcLane);
+  a.y() = item_ct1.get_sub_group().shuffle_down(a.y(), srcLane);
   return *reinterpret_cast<double*>(&a);
 }
-__global__ void kernal_mat_u_32_wrap(double *kernel_cudata,
+void kernal_mat_u_32_wrap(double *kernel_cudata,
                                      int *csr_row_ptrl,int *cucol,
                                      double *u_cudata,
-                                     double *output_cudata,int n_rows);
+                                     double *output_cudata,int n_rows,
+                                     sycl::nd_item<3> item_ct1);
 //void sp_matrix_times_V(CSRMatrix*A,cuVec*b,cuVec *c){
 //    //std::cout << A->n_rows << std::endl;
 //    dim3 block(A->n_rows);
@@ -257,7 +243,7 @@ __global__ void kernal_mat_u_32_wrap(double *kernel_cudata,
 
 void sp_matrix_times_V_ptrl(CSRMatrix*A,double*b,double *c){
 
-    dim3 block(A->n_rows);
+    sycl::range<3> block(1, 1, A->n_rows);
     kernal_mat_u_32_wrap<<<block,WARP_>>>(thrust::raw_pointer_cast(A->cudata.data()),
                                           thrust::raw_pointer_cast(A->csr_row_ptrl.data()),
                                           thrust::raw_pointer_cast(A->cucol.data()),
@@ -282,12 +268,14 @@ for(int i = begin_index + lane_id; i < end_index; i+=WARP_){
 
 }
 }*/
-__global__ void kernal_mat_u_32_wrap(double *kernel_cudata,
+void kernal_mat_u_32_wrap(double *kernel_cudata,
                                      int *csr_row_ptrl,int *cucol,
                                      double *u_cudata,
-                                     double *output_cudata,int n_rows){
+                                     double *output_cudata,int n_rows,
+                                     sycl::nd_item<3> item_ct1){
 
-    int thread_id = blockDim.x * blockIdx.x + threadIdx.x;
+    int thread_id = item_ct1.get_local_range().get(2) * item_ct1.get_group(2) +
+                    item_ct1.get_local_id(2);
     int vector_id = thread_id / WARP_;
     int lane_id = thread_id % WARP_;
 
@@ -310,7 +298,7 @@ __global__ void kernal_mat_u_32_wrap(double *kernel_cudata,
 
         int temp = WARP_/2;
         while(temp >= 1){
-            thread_sum += __shfl_down_(thread_sum, temp);
+            thread_sum += __shfl_down_(thread_sum, temp, item_ct1);
             temp >>= 1;
         }
 
@@ -334,8 +322,8 @@ void cuVec::print_vec(){
 //matrix transpose
 void matrixTrans(CSRMatrix*A,CSRMatrix*B){
 
-    cusparseHandle_t handle;
-    cusparseCreate(&handle);
+    sycl::queue *handle;
+    handle = &dpct::get_default_queue();
     COOMatrix matrix_temp(A->n_cols,A->n_rows,A->n_element);
     matrix_temp.cudata = A->cudata;
     matrix_temp.curow =  A->cucol;
@@ -347,9 +335,7 @@ void matrixTrans(CSRMatrix*A,CSRMatrix*B){
      CUSPARSE_INDEX_BASE_ZERO);
     B->create_matrix_from_coo(&matrix_temp);
 
-
-    cusparseDestroy(handle);
-
+    handle = nullptr;
 }
 
 

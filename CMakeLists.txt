@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 
 # project name
-project (MultiStageALM)
+project (multistageALM)
 
  
 
@@ -28,15 +28,15 @@ INCLUDE_DIRECTORIES (Common)
 add_subdirectory(Common)
 
 # please change the path before running cmake .
-INCLUDE_DIRECTORIES("/home/chenyidong/armadillo/include")
-LINK_DIRECTORIES("/home/chenyidong/armadillo/lib")
+INCLUDE_DIRECTORIES("/home/chenyidong/armadillo_lib/include")
+LINK_DIRECTORIES("/home/chenyidong/armadillo_lib/lib")
 LINK_DIRECTORIES("/home/chenyidong/hdf5_installed/lib")
 INCLUDE_DIRECTORIES ("/home/chenyidong/hdf5_installed/include")
 
 
 
   cuda_add_executable(ADMM_Solver   main_admm.cpp admmsolver.cu  cnic_sparsematrix.cu matrix_function.cu
-        mytest_sparse.cu Conjugate_gradient.cu
+        mytest_sparse.cu Conjugate_gradient.cu  cnicsparsematrix.cpp
         )
     target_compile_options(ADMM_Solver PUBLIC ${LEMON_COMPILE_OPTIONS})
     target_include_directories(ADMM_Solver PUBLIC ${LEMON_INCLUDE_DIRECTORY})

@@ -1,0 +1,46 @@
+---
+MainSourceFile:  '/home/chenyidong/multistageALM/migrate/dpct_output/resources.h'
+Replacements:
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/resources.h'
+    Offset:          40
+    Length:          29
+    ReplacementText: '#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/resources.h'
+    Offset:          267
+    Length:          10
+    ReplacementText: 'this->resources = (<dependent type>)sycl::malloc_device'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/resources.h'
+    Offset:          278
+    Length:          25
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/resources.h'
+    Offset:          334
+    Length:          0
+    ReplacementText: ', dpct::get_default_queue()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/resources.h'
+    Offset:          370
+    Length:          25
+    ReplacementText: 'sycl::free(this->resources, dpct::get_default_queue())'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+...
