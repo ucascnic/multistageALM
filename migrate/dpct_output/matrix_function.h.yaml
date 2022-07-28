@@ -1,0 +1,220 @@
+---
+MainSourceFile:  '/home/chenyidong/multistageALM/migrate/dpct_output/matrix_function.h'
+Replacements:
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          53
+    Length:          29
+    ReplacementText: '#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+#include <oneapi/mkl.hpp>
+#include <dpct/blas_utils.hpp>
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          82
+    Length:          22
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          142
+    Length:          0
+    ReplacementText: '/*
+DPCT1009:1: SYCL uses exceptions to report errors and does not use the error codes. The original code was commented out and a warning string was inserted. You need to rewrite this code.
+*/
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          314
+    Length:          11
+    ReplacementText: int
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          389
+    Length:          487
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1181
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1260
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1358
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1448
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1540
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1621
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1721
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1802
+    Length:          14
+    ReplacementText: 'sycl::queue*'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          1994
+    Length:          0
+    ReplacementText: '    /*
+    DPCT1003:0: Migrated API does not return error code. (*, 0) is inserted. You may need to rewrite this code.
+    */
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2004
+    Length:          10
+    ReplacementText: '(dpct::get_default_queue().memcpy'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2032
+    Length:          23
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2056
+    Length:          0
+    ReplacementText: '.wait(), 0)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2295
+    Length:          0
+    ReplacementText: '    /*
+    DPCT1003:2: Migrated API does not return error code. (*, 0) is inserted. You may need to rewrite this code.
+    */
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2305
+    Length:          10
+    ReplacementText: '(dpct::get_default_queue().memcpy'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2341
+    Length:          23
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2365
+    Length:          0
+    ReplacementText: '.wait(), 0)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2617
+    Length:          0
+    ReplacementText: '    /*
+    DPCT1003:3: Migrated API does not return error code. (*, 0) is inserted. You may need to rewrite this code.
+    */
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2627
+    Length:          10
+    ReplacementText: '(dpct::get_default_queue().memcpy'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2663
+    Length:          23
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/matrix_function.h'
+    Offset:          2687
+    Length:          0
+    ReplacementText: '.wait(), 0)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+...

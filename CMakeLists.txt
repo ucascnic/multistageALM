@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 
 # project name
-project (MultiStageALM)
+project (multistageALM)
 
 enable_testing() 
 

@@ -1,0 +1,139 @@
+---
+MainSourceFile:  '/home/chenyidong/multistageALM/migrate/dpct_output/cnic_sparsematrix.h'
+Replacements:
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          56
+    Length:          0
+    ReplacementText: '#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          82
+    Length:          27
+    ReplacementText: '<dpct/dpl_utils.hpp>
+#include <oneapi/dpl/execution>
+#include <oneapi/dpl/algorithm>'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          109
+    Length:          0
+    ReplacementText: '
+#include <oneapi/mkl.hpp>
+#include <dpct/blas_utils.hpp>
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          110
+    Length:          30
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          141
+    Length:          33
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          175
+    Length:          24
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          200
+    Length:          29
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          229
+    Length:          24
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          254
+    Length:          33
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          288
+    Length:          31
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          320
+    Length:          36
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          357
+    Length:          29
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          386
+    Length:          24
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          611
+    Length:          10
+    ReplacementText: 'cu_data = (T *)sycl::malloc_device'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          622
+    Length:          18
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/cnic_sparsematrix.h'
+    Offset:          644
+    Length:          0
+    ReplacementText: ', dpct::get_default_queue()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+...

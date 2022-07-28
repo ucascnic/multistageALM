@@ -1,17 +1,14 @@
 #ifndef CNIC_SPARSEMATRIX_H
 #define CNIC_SPARSEMATRIX_H
-#include<vector>
-#include <thrust/transform_reduce.h>
-#include <thrust/functional.h>
-#include <thrust/device_vector.h>
-#include <thrust/copy.h>
-#include<cuda_runtime_api.h>
-#include <thrust/find.h>
-#include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
-#include <thrust/execution_policy.h>
-#include<cuda_runtime_api.h>
-#include<cusparse_v2.h>
+#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+#include <vector>
+#include <dpct/dpl_utils.hpp>
+#include <oneapi/dpl/execution>
+#include <oneapi/dpl/algorithm>
+#include <oneapi/mkl.hpp>
+#include <dpct/blas_utils.hpp>
+
 #define ARMA_ALLOW_FAKE_GCC
 #include<armadillo>
 using namespace arma;
@@ -22,7 +19,7 @@ template <typename T>
 void copy_data_from_vector(T *cu_data,std::vector<T> &data){
 
     int size = sizeof(T) * data.size();
-    cudaMalloc((void **)&cu_data,size);
+    cu_data = (T *)sycl::malloc_device(size, dpct::get_default_queue());
     cudaMemcpy(cu_data,data.data(),size,cudaMemcpyHostToDevice);
 }
 

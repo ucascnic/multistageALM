@@ -1,0 +1,38 @@
+---
+MainSourceFile:  '/home/chenyidong/multistageALM/migrate/dpct_output/mytest_sparse.h'
+Replacements:
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/mytest_sparse.h'
+    Offset:          48
+    Length:          29
+    ReplacementText: '#include <CL/sycl.hpp>
+#include <dpct/dpct.hpp>
+'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/mytest_sparse.h'
+    Offset:          326
+    Length:          10
+    ReplacementText: 'dpct::get_default_queue().memcpy'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/mytest_sparse.h'
+    Offset:          361
+    Length:          23
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+  - FilePath:        '/home/chenyidong/multistageALM/migrate/mytest_sparse.h'
+    Offset:          385
+    Length:          0
+    ReplacementText: '.wait()'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+...

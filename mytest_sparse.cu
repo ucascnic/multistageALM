@@ -9,6 +9,7 @@
 #include"mytest_sparse.h"
 
 
+<<<<<<< HEAD
 void run_test_for_sparse_mv()
 {
     int txts[7] = {10, 20, 30, 40, 50, 100, 110};
@@ -87,3 +88,5 @@ void run_test_for_matrix_transpose(sp_mat &B){
 
 
 }
+=======
+>>>>>>> e482650b266d506d07978d670d2906c54f33f0ad
