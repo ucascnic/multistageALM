@@ -56,3 +56,26 @@ please change the path before running `cmake .`
 
 
 
+@article{1959Receptive,
+  title={Receptive fields of single neurones in the cat's striate cortex},
+  author={ Hubel, D. H.  and  Wiesel, T. N. },
+  journal={The Journal of Physiology},
+  volume={148},
+  year={1959},
+}
+
+@journal{1987Relations,
+  title={Relations between the statistics of natural images and the response properties of cortical cells},
+  author={Field Dj, Hayes A, Hess Rf},
+  year={1987},
+  journal={JOURNAL OF THE OPTICAL SOCIETY OF AMERICA A-OPTICS IMAGE SCIENCE AND VISION},
+  volume={4},
+}
+
+@article{1959Receptive,
+  title={Receptive fields of single neurones in the cat's striate cortex},
+  author={ Hubel, D. H.  and  Wiesel, T. N. },
+  journal={The Journal of Physiology},
+  volume={148},
+  year={1959},
+}
